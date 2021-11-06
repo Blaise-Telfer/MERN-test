@@ -37,5 +37,5 @@ app.listen(port, () => {
 	
 	// index.html for all page routes html or routing and naviagtion
 	app.get("*", (req, res) => {
-		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+		res.sendFile(path.resolve("client", "build", "index.html"));
 	});
