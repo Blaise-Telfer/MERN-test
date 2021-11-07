@@ -15,7 +15,7 @@ function App() {
     });
 	
 	socket.current = socketIOClient("http://localhost:5000");
-    socket.current.on('messages', res => console.log("socket has connected succesfully"));
+    socket.current.on('addUser', res => console.log("socket has connected succesfully"));
   }, []);
   
   return (
