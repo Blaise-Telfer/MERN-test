@@ -4,6 +4,8 @@ const app = express();
 require('dotenv').config();
 const call = require("./routes/test");
 const path = require("path");
+const socketio = require('socket.io');
+const cors = require('cors');
 
 
 //database configuration
@@ -23,19 +25,39 @@ const allowCrossDomain = (req,res,next) => {
     next();
 }
 app.use(allowCrossDomain);
+app.use(cors());
 
 app.use("/api", call);
 
 //port configuration
 const port = process.env.PORT || 5000;
-app.listen(port, () => {
+const expressServer = app.listen(port, () => {
 	console.log(`Server running on port ${port}`);
 });
 
-// Set static folder
-	app.use(express.static("client/build"));
+const io = socketio(expressServer, {
+	cors: {
+		origin: "*"
+	}
+});
+
+app.set('socketio', io);
+console.log('Socket.io listening for connections');
+
+io.on("connection", (socket) => {
+	console.log("a user has connected");
 	
+	socket.on("addUser", (userId) => {
+		addUser(userId, socket.id);
+	});
+});
+
+/*if (process.env.NODE_ENV === "production") {
+	// Set static folder
+	app.use(express.static("client/build"));
+
 	// index.html for all page routes html or routing and naviagtion
 	app.get("*", (req, res) => {
 		res.sendFile(path.resolve(__dirname, "index.html"));
 	});
+}*/

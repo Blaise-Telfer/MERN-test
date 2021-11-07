@@ -1,17 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import axios from "axios";
+import socketIOClient from 'socket.io-client';
 
 
 function App() {
-  
   const [message, setMessage] = useState({});
+  const socket = useRef();
   
   useEffect(() => {
     axios.get("/api/test").then((response) => {
 	  setMessage(response.data)
     });
+	
+	socket.current = socketIOClient("http://localhost:5000");
+    socket.current.on('messages', res => console.log("socket has connected succesfully"));
   }, []);
   
   return (
