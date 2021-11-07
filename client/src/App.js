@@ -14,7 +14,7 @@ function App() {
 	  setMessage(response.data)
     });
 	
-	socket.current = socketIOClient("http://localhost:5000");
+	socket.current = socketIOClient("https://telfer-board.herokuapp.com/");
     socket.current.on('addUser', res => console.log("socket has connected succesfully"));
   }, []);
   
