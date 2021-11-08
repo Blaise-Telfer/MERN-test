@@ -48,7 +48,7 @@ io.on("connection", (socket) => {
 	console.log("a user has connected");
 	
 	socket.on("addUser", (userId) => {
-		addUser(userId, socket.id);
+		res.status(200).json({message: "sending from the adduser function"});
 	});
 });
 

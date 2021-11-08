@@ -8,14 +8,16 @@ import socketIOClient from 'socket.io-client';
 function App() {
   const [message, setMessage] = useState({});
   const socket = useRef();
+  const devBackend = "http://localhost:5000/";
+  const prodBackend = "https://telfer-board.herokuapp.com/";
   
   useEffect(() => {
     axios.get("/api/test").then((response) => {
 	  setMessage(response.data)
     });
 	
-	socket.current = socketIOClient("https://telfer-board.herokuapp.com/");
-    socket.current.on('addUser', res => console.log("socket has connected succesfully"));
+	socket.current = socketIOClient("http://localhost:5000/");
+    socket.current.on('addUser', res => console.log(res));
   }, []);
   
   return (
